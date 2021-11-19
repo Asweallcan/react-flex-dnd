@@ -1,6 +1,6 @@
 {
   "name": "react-flex-dnd",
-  "version": "1.0.5",
+  "version": "1.0.51",
   "description": "react drag and drop sorting supports flex layout",
   "main": "dist/index.js",
   "scripts": {
