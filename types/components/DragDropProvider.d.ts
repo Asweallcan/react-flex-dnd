@@ -7,9 +7,14 @@ declare const DragDropProvider: FC<{
         droppableId?: string;
     }) => ReactNode);
     onDragEnd: (params: {
-        to: string;
-        from: string;
-        index: number;
+        to: {
+            index: number;
+            droppableId: string;
+        };
+        from: {
+            index: number;
+            droppableId: string;
+        };
         draggableId: string;
     }) => void;
 }>;

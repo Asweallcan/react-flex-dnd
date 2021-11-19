@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { Data } from "./types";
-import { replaceRemovingDataToNull, clearData, findData } from "./utils";
 import { Ghost, Draggable, Droppable, DragDropProvider } from "../src";
+import { replaceRemovingDataToNull, clearData, findData } from "./utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,7 +66,9 @@ const List: React.FC = () => {
   return (
     <DragDropProvider
       rootId="app"
-      onDragEnd={({ to, index, draggableId }) => {
+      onDragEnd={({ to, from, draggableId }) => {
+        const { droppableId, index } = to;
+
         let cloneList = list.concat();
 
         const movedData = findData({ data: cloneList, key: draggableId });
@@ -76,8 +78,8 @@ const List: React.FC = () => {
           key: draggableId,
         });
 
-        if (to !== "outerDroppable") {
-          const parent = findData({ data: cloneList, key: to });
+        if (droppableId !== "outerDroppable") {
+          const parent = findData({ data: cloneList, key: droppableId });
           if (!parent.children) parent.children = [];
           parent.children.splice(index, 0, movedData);
         } else {

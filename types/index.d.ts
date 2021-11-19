@@ -35,9 +35,14 @@ declare const _default: {
             droppableId?: string | undefined;
         }) => import("react").ReactNode);
         onDragEnd: (params: {
-            to: string;
-            from: string;
-            index: number;
+            to: {
+                index: number;
+                droppableId: string;
+            };
+            from: {
+                index: number;
+                droppableId: string;
+            };
             draggableId: string;
         }) => void;
     }>;

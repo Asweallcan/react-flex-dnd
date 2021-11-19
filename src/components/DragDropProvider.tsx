@@ -32,9 +32,8 @@ const DragDropProvider: FC<{
     | ReactNode
     | ((params: { draggingId?: string; droppableId?: string }) => ReactNode);
   onDragEnd: (params: {
-    to: string;
-    from: string;
-    index: number;
+    to: { index: number; droppableId: string };
+    from: { index: number; droppableId: string };
     draggableId: string;
   }) => void;
 }> = (props) => {
@@ -128,8 +127,7 @@ const DragDropProvider: FC<{
   const onMouseUp = useCallback(() => {
     try {
       const droppableId = edgeDraggableIdRef.current
-        ? draggableRefs.current[edgeDraggableIdRef.current]?.dataset
-            ?.belongsTo
+        ? draggableRefs.current[edgeDraggableIdRef.current]?.dataset?.belongsTo
         : droppableIdRef.current;
 
       if (!droppableId || !draggingIdRef.current) return;
@@ -145,9 +143,12 @@ const DragDropProvider: FC<{
       if (index === -1) return;
 
       onDragEnd?.({
-        to: droppableId,
-        from: draggableRefs.current[draggingIdRef.current].dataset.droppableId!,
-        index,
+        to: { index, droppableId },
+        from: {
+          index: +draggableRefs.current[draggingIdRef.current].dataset.index!,
+          droppableId:
+            draggableRefs.current[draggingIdRef.current].dataset.belongsTo!,
+        },
         draggableId: draggingIdRef.current,
       });
     } finally {

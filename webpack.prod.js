@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
     library: {
-      name: "lshtest234",
+      name: "react-flex-dnd",
       type: "umd",
       export: "default",
     },
