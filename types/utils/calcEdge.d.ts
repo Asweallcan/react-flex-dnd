@@ -1,7 +1,7 @@
-import { Edge } from '../types';
+import { Edge } from "../types";
 declare const calcEdge: (params: {
-    pageX: number;
-    pageY: number;
+    x: number;
+    y: number;
     threshold: number;
     draggableRect: DOMRect;
     disabledEdges: Edge[];

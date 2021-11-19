@@ -11,6 +11,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": false,
+    "preserveConstEnums": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "removeComments": true,
@@ -18,7 +19,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2015",
+    "target": "ES2015",
     "outDir": "types"
   },
   "exclude": ["**/node_modules", "dist"],

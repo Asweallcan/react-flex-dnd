@@ -94,8 +94,8 @@ const Draggble: FC<{
       if (!sortable || !draggingId || isDragging) return;
 
       const edge = calcEdge({
-        pageX: e.pageX,
-        pageY: e.pageY,
+        x: e.clientX,
+        y: e.clientY,
         threshold,
         disabledEdges,
         draggableRect: getRect(ref.current!)!,

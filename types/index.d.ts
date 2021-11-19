@@ -1,8 +1,10 @@
+import { Edge } from "./types";
 import { DragDropContext } from "./contexts";
 import { Ghost, Draggable, Droppable, DragDropProvider } from "./components";
 export * from "./types";
 export { Ghost, Draggable, Droppable, DragDropContext, DragDropProvider };
 declare const _default: {
+    Edge: typeof Edge;
     Ghost: import("react").FC<{}>;
     Draggable: import("react").FC<{
         id: string;
@@ -13,7 +15,7 @@ declare const _default: {
         belongsTo: string;
         threshold?: number | undefined;
         className?: string | undefined;
-        disabledEdges?: import("./types").Edge[] | undefined;
+        disabledEdges?: Edge[] | undefined;
         children: (draggableProps: import("./types").DraggableProps) => import("react").ReactNode;
     }>;
     Droppable: import("react").FC<{
