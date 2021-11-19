@@ -47,9 +47,9 @@ const DragDropProvider: FC<{
     return null;
   }
 
-  if (+React.version.split(".").slice(0, 2).join(".") < 16.8) {
+  if (!useState || typeof useState !== "function") {
     console.error(
-      "[react-flex-dnd] Not support React below 16.8 yet, using hooks"
+      `[react-flex-dnd] Not support React below 16.8 yet, using hooks, current version: ${React.version}`
     );
 
     return null;
