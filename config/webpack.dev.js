@@ -2,17 +2,8 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "examples/index.tsx"),
+  entry: path.resolve(__dirname, "../examples/index.tsx"),
   mode: "development",
-  output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "index.js",
-    library: {
-      name: "examaples",
-      type: "umd",
-      export: "default",
-    },
-  },
   module: {
     rules: [
       {
@@ -29,7 +20,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "react flex dnd examples",
-      template: "examples/public/index.html",
+      template: path.resolve(__dirname, "../examples/public/index.html"),
       filename: "index.html",
       inject: true,
     }),

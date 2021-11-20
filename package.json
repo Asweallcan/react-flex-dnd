@@ -4,9 +4,9 @@
   "description": "react drag and drop sorting supports flex layout",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "rm -rf build && webpack-dev-server --config ./webpack.dev.js --open",
-    "build": "rm -rf dist types && webpack --config ./webpack.prod.js",
-    "build:examples": "rm -rf example_dist && webpack --config ./webpack.site.js"
+    "dev": "rm -rf build && webpack-dev-server --config ./config/webpack.dev.js --open",
+    "build": "rm -rf dist types && webpack --config ./config/webpack.prod.js",
+    "build:site": "rm -rf examples_dist index.html && webpack --config ./config/webpack.site.js && mv ./examples_dist/index.html ."
   },
   "repository": {
     "type": "git",

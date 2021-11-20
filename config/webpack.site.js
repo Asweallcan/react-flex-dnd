@@ -2,10 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, "examples/index.tsx"),
+  entry: path.resolve(__dirname, "../examples/index.tsx"),
   mode: "production",
   output: {
-    path: path.resolve(__dirname, "example_dist"),
+    path: path.resolve(__dirname, "../examples_dist"),
     filename: "index.js",
   },
   module: {
@@ -24,9 +24,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: "react flex dnd examples",
-      template: "examples/public/index.html",
-      filename: "index.html",
       inject: true,
+      template: path.resolve(__dirname, "../examples/public/index.html"),
+      filename: "index.html",
+      publicPath: "./examples_dist",
     }),
   ],
   resolve: {
