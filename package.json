@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "rm -rf build && webpack-dev-server --config ./webpack.dev.js --open",
-    "build": "rm -rf dist types && webpack --config ./webpack.prod.js"
+    "build": "rm -rf dist types && webpack --config ./webpack.prod.js",
+    "build:examples": "rm -rf example_dist && webpack --config ./webpack.site.js"
   },
   "repository": {
     "type": "git",
