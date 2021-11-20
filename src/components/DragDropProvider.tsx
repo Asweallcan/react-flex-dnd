@@ -22,7 +22,7 @@ import {
   createGhost,
   DragScroller,
   transformGhost,
-  calcIndex,
+  calcEdgeIndex,
 } from "../utils";
 
 const DragDropProvider: FC<{
@@ -132,7 +132,7 @@ const DragDropProvider: FC<{
 
       if (!droppableId || !draggingIdRef.current) return;
 
-      const index = calcIndex({
+      const edgeIndex = calcEdgeIndex({
         edge: edgeRef.current,
         droppable: droppableRefs.current[droppableId],
         draggingId: draggingIdRef.current,
@@ -140,14 +140,23 @@ const DragDropProvider: FC<{
         edgeDraggableId: edgeDraggableIdRef.current,
       });
 
-      if (index === -1) return;
+      if (edgeIndex === -1) return;
+
+      const prevIndex =
+        +draggableRefs.current[draggingIdRef.current].dataset.index!;
+      const prevDroppableId =
+        draggableRefs.current[draggingIdRef.current].dataset.belongsTo!;
+
+      let newIndex = edgeIndex;
+      if (prevDroppableId === droppableId) {
+        newIndex += edgeIndex > prevIndex ? -1 : 0;
+      }
 
       onDragEnd?.({
-        to: { index, droppableId },
+        to: { index: newIndex, droppableId },
         from: {
-          index: +draggableRefs.current[draggingIdRef.current].dataset.index!,
-          droppableId:
-            draggableRefs.current[draggingIdRef.current].dataset.belongsTo!,
+          index: prevIndex,
+          droppableId: prevDroppableId,
         },
         draggableId: draggingIdRef.current,
       });

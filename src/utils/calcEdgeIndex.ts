@@ -31,7 +31,8 @@ const getSameAxisDraggables = (params: {
   return sameAxisDraggables;
 };
 
-const calcIndex = (params: {
+// calc edge index width dragging item reserved
+const calcEdgeIndex = (params: {
   edge?: Edge;
   droppable: HTMLElement;
   draggingId: string;
@@ -93,4 +94,4 @@ const calcIndex = (params: {
   );
 };
 
-export default calcIndex;
+export default calcEdgeIndex;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { Data } from "./types";
 import { Ghost, Draggable, Droppable, DragDropProvider } from "../src";
-import { replaceRemovingDataToNull, clearData, findData } from "./utils";
+import { removeData, findData } from "./utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,26 +66,18 @@ const List: React.FC = () => {
   return (
     <DragDropProvider
       rootId="app"
-      onDragEnd={({ to, from, draggableId }) => {
-        const { droppableId, index } = to;
+      onDragEnd={({ to, draggableId }) => {
+        const movedData = findData({ data: list, key: draggableId });
 
-        let cloneList = list.concat();
+        let cloneList = removeData({ data: list.concat(), key: draggableId });
 
-        const movedData = findData({ data: cloneList, key: draggableId });
-
-        cloneList = replaceRemovingDataToNull({
-          data: cloneList,
-          key: draggableId,
-        });
-
-        if (droppableId !== "outerDroppable") {
-          const parent = findData({ data: cloneList, key: droppableId });
+        if (to.droppableId !== "outerDroppable") {
+          const parent = findData({ data: cloneList, key: to.droppableId });
           if (!parent.children) parent.children = [];
-          parent.children.splice(index, 0, movedData);
+          parent.children.splice(to.index, 0, movedData);
         } else {
-          cloneList.splice(index, 0, movedData);
+          cloneList.splice(to.index, 0, movedData);
         }
-        cloneList = clearData(cloneList);
 
         setList(cloneList);
       }}

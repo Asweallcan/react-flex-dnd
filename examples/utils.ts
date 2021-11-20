@@ -33,7 +33,7 @@ export const findData = (params: Params): Data[number] => {
   return null;
 };
 
-export const replaceRemovingDataToNull = (params: Params): Data => {
+export const removeData = (params: Params): Data => {
   const { data, key: target } = params;
 
   for (let index = 0; index < data.length; index += 1) {
@@ -43,54 +43,17 @@ export const replaceRemovingDataToNull = (params: Params): Data => {
 
     if (key === target) {
       // @ts-ignore
-      data.splice(index, 1, null);
-
-      // @ts-ignore
-      return data;
-    }
-
-    if (children) {
-      const nextChildren = replaceRemovingDataToNull({
-        data: children,
-        key: target,
-      });
-
-      if (nextChildren.length !== children.length) {
-        item.children = nextChildren;
-
-        // @ts-ignore
-        return data;
-      }
-    }
-  }
-
-  // @ts-ignore
-  return data;
-};
-
-export const clearData = (data: Data): Data => {
-  for (let index = 0; index < data.length; index += 1) {
-    const item = data[index];
-
-    if (!item) {
       data.splice(index, 1);
 
       // @ts-ignore
       return data;
     }
 
-    const { children } = item;
-
     if (children) {
-      // @ts-ignore
-      const nextChildren = clearData(children);
-
-      if (nextChildren.length !== children.length) {
-        item.children = nextChildren;
-
-        // @ts-ignore
-        return data;
-      }
+      item.children = removeData({
+        data: children,
+        key: target,
+      });
     }
   }
 
