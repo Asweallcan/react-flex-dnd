@@ -1,25 +1,15 @@
 const path = require("path");
+const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+const baseConfig = require("./webpack.base");
+
+module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, "../examples/index.tsx"),
   mode: "production",
   output: {
     path: path.resolve(__dirname, "../examples_dist"),
     filename: "index.js",
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules|bower_components|\.d\.ts$/,
-        use: [
-          {
-            loader: "babel-loader",
-          },
-        ],
-      },
-    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -30,7 +20,4 @@ module.exports = {
       publicPath: "./examples_dist",
     }),
   ],
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-  },
-};
+});

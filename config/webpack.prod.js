@@ -1,8 +1,20 @@
 const path = require("path");
+const { merge } = require("webpack-merge");
 
-module.exports = {
+const baseConfig = require("./webpack.base");
+
+module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, "../src/index.ts"),
   mode: "production",
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules|bower_components/,
+        use: ["babel-loader", "ts-loader"],
+      },
+    ],
+  },
   output: {
     path: path.resolve(__dirname, "../dist"),
     filename: "index.js",
@@ -12,25 +24,8 @@ module.exports = {
       export: "default",
     },
   },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules|bower_components|\.d\.ts$/,
-        use: [
-          {
-            loader: "babel-loader",
-          },
-          { loader: "ts-loader" },
-        ],
-      },
-    ],
-  },
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-  },
   externals: {
     react: "react",
     "react-dom": "react-dom",
   },
-};
+});

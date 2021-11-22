@@ -1,5 +1,6 @@
 import { FC, ReactNode, CSSProperties } from "react";
 import { Edge, DraggableProps } from "../../types";
+import "./style.less";
 declare const Draggble: FC<{
     id: string;
     index: number;

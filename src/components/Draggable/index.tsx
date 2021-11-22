@@ -13,7 +13,6 @@ import React, {
   CSSProperties,
 } from "react";
 
-import { Wrapper } from "./style";
 import { calcEdge } from "../../utils";
 import { Edge, DraggableProps } from "../../types";
 import {
@@ -21,6 +20,8 @@ import {
   DraggableContext,
   ControllerContext,
 } from "../../contexts";
+
+import "./style.less";
 
 const getRect = (ref: HTMLElement) => ref.getBoundingClientRect();
 
@@ -118,14 +119,17 @@ const Draggble: FC<{
     ]
   );
 
+  const cls = [
+    "react-flex-dnd-draggable",
+    disabled && "disabled",
+    isDragging && "isDragging",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <Wrapper
-      {...rest}
-      style={style}
-      disabled={!!disabled}
-      className={className}
-      isDragging={isDragging}
-    >
+    <div {...rest} style={style} className={cls}>
       {typeof children === "function"
         ? children({
             ref,
@@ -140,7 +144,7 @@ const Draggble: FC<{
             onDragStart,
           })
         : null}
-    </Wrapper>
+    </div>
   );
 };
 

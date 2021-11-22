@@ -1,22 +1,12 @@
 const path = require("path");
+const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+const baseConfig = require("./webpack.base");
+
+module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, "../examples/index.tsx"),
   mode: "development",
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules|bower_components|\.d\.ts$/,
-        use: [
-          {
-            loader: "babel-loader",
-          },
-        ],
-      },
-    ],
-  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "react flex dnd examples",
@@ -25,11 +15,8 @@ module.exports = {
       inject: true,
     }),
   ],
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-  },
   devServer: {
     host: "localhost",
     port: "9999",
   },
-};
+});

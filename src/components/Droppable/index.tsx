@@ -13,9 +13,10 @@ import React, {
   CSSProperties,
 } from "react";
 
-import { Wrapper } from "./style";
 import { Direction, DroppableProps } from "../../types";
 import { DragDropContext, ControllerContext } from "../../contexts";
+
+import "./style.less";
 
 const Droppable: FC<{
   id: string;
@@ -79,13 +80,10 @@ const Droppable: FC<{
     [id, draggingId, isDragOver, setDroppableId]
   );
 
+  const cls = ["react-flex-dnd-droppable", className].filter(Boolean).join(" ");
+
   return (
-    <Wrapper
-      style={style}
-      className={className}
-      onMouseOut={onMouseOut}
-      onMouseMove={onMouseMove}
-    >
+    <div style={style} className={cls}>
       {typeof children === "function"
         ? children({
             ref,
@@ -97,7 +95,7 @@ const Droppable: FC<{
             onMouseMove,
           })
         : null}
-    </Wrapper>
+    </div>
   );
 };
 
