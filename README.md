@@ -2,23 +2,56 @@
 
 **React drag and drop sort support flex layout and nested.**
 
+This package using hooks, note that your React version is above 16.8 :)
+
+Also not support mobile, but it's not time consuming, I am doing this.
+
 ![example](./assets/example.gif)
 
-**This package using hooks, note that your React version is above 16.8 :)**
+[Playground](https://asweallcan.github.io/react-flex-dnd), the example currently is pretty simple, **only show one level nested, but it can be infinite nested if you want**, I will enrich it after a period of time.
 
-Why flex? flex covers most demands, like list vertically or horizontally, if your list can wrap, that's the problem what here to solve. Flex wrap is likely a grid layout, but there is difference.
+## Core characteristics
 
-**Flex wrap layout, just like using css property flex wrap.**
-![flex-wrap](./assets/flex-wrap.png)
+- Support any layout except grid
+- High customization
+- Clean and powerful api which is simple to get started with
+- Element styles are not affected
+- Easy nested
 
-Grid layout, it uses all spaces to place elements.
-![grid](./assets/grid.png)
+**If your demand is grid layout, I suggest [react-grid-layout](https://github.com/react-grid-layout/react-grid-layout).**
 
-**If your demand is grid layout, I suggest [react-grid-layout]**(https://github.com/react-grid-layout/react-grid-layout).
+## Currently supported features
 
-Play with react-flex-dnd: https://asweallcan.github.io/react-flex-dnd, the example is pretty simple, **only show one level nested, but it can be infinite nested if you want.**
+- Vertical lists
+- Horizontal lists
+- Row flex wrap
+- Column flex wrap
+- Auto scrolling
+- Nested droppables and draggables
 
-## Useage
+## Simple Example
+
+```tsx
+<DragDropPrivider rootId="app" ghostId="myGhost" onDragEnd={(result) => {
+  const {from, to, draggableId} = result;
+
+  // update your data
+}}>
+  <Droppable id="custom-droppable">
+    {droppableProps => <div {...droppableProps}>
+      {elements.map(element => {
+        const {key, content} = element;
+
+        return <Draggable id={key} belongsTo="custom-droppable">
+          {draggableProps => <div {...draggableProps}>{content}</div>}
+        </Draggable>
+      })}
+    <div>}
+  </Droppable>
+</DragDropPrivider>
+```
+
+## Usage
 
 ### DragDropProvider
 
@@ -26,7 +59,7 @@ Must wrap your app with it, it provides controllers for your draggables and drop
 
 **rootId?: string**
 
-If using React 17, it is required to identify app root el.
+If using React 17, it is required to identify React app root element.
 
 **ghostId?: string**
 
@@ -43,3 +76,6 @@ onDragEnd: (params: {
 ```
 
 Here comes key part, onDragEnd can get sort result after interaction, `from` shows old place for the dragging item, but for attention, the index in the `to` is the new index with dragging item removed. Normally when drag end, you remove element first then insert dragging item to the new place.
+
+### Draggable
+
