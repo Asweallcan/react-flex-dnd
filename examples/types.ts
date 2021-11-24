@@ -1,5 +1,6 @@
 export type Data = Array<{
-  key: string;
-  content: string;
+  id: string;
+  type: "item" | "container";
+  label: string;
   children?: Data;
 }>;

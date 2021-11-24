@@ -2,27 +2,27 @@
 import { Data } from "./types";
 
 type Params = {
-  key: string;
+  id: string;
   data: Data;
 };
 
 export const findData = (params: Params): Data[number] => {
-  const { data, key: target } = params;
+  const { data, id: target } = params;
 
   for (let index = 0; index < data.length; index += 1) {
     const item = data[index];
 
     if (!item) continue;
 
-    const { key } = item;
+    const { id } = item;
 
-    if (key === target) return item;
+    if (id === target) return item;
 
     const { children } = item;
 
     if (children) {
       const temp = findData({
-        key: target,
+        id: target,
         data: children,
       });
 
@@ -34,14 +34,14 @@ export const findData = (params: Params): Data[number] => {
 };
 
 export const removeData = (params: Params): Data => {
-  const { data, key: target } = params;
+  const { data, id: target } = params;
 
   for (let index = 0; index < data.length; index += 1) {
     const item = data[index];
 
-    const { key, children } = item;
+    const { id, children } = item;
 
-    if (key === target) {
+    if (id === target) {
       // @ts-ignore
       data.splice(index, 1);
 
@@ -52,7 +52,7 @@ export const removeData = (params: Params): Data => {
     if (children) {
       item.children = removeData({
         data: children,
-        key: target,
+        id: target,
       });
     }
   }

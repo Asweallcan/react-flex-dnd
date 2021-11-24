@@ -59,11 +59,11 @@ Must wrap your app with it, it provides controllers for your draggables and drop
 
 **rootId?: string**
 
-If using React 17, it is required to identify React app root element.
+In React 17, it is required to identify React app root element.
 
 **ghostId?: string**
 
-html id property for ghost element.
+Html id property for ghost element.
 
 **onDragEnd**
 
