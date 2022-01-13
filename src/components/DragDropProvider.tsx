@@ -66,6 +66,8 @@ const DragDropProvider: FC<{
   const droppableRefs = useRef<Record<string, HTMLElement>>({});
   const droppableIdRef = useRef<string>();
 
+  const onDragEndRef = useRef(onDragEnd);
+
   const [edge, setEdgeState] = useState<Edge>();
   const [edgeDraggableId, setEdgeDraggableState] = useState<string>();
 
@@ -152,7 +154,7 @@ const DragDropProvider: FC<{
         newIndex += edgeIndex > prevIndex ? -1 : 0;
       }
 
-      onDragEnd?.({
+      onDragEndRef.current?.({
         to: { index: newIndex, droppableId },
         from: {
           index: prevIndex,
@@ -163,7 +165,7 @@ const DragDropProvider: FC<{
     } finally {
       _nulling();
     }
-  }, [_nulling, onDragEnd]);
+  }, [_nulling]);
 
   const onMouseMove = useCallback((e: MouseEvent) => {
     if (!draggingIdRef.current) return;
@@ -200,6 +202,10 @@ const DragDropProvider: FC<{
     // @ts-ignore
     eventEl.removeEventListener("mousemove", onMouseMove);
   }, [rootId, isReactAbove16, onMouseUp, onMouseMove]);
+
+  useEffect(() => {
+    onDragEndRef.current = onDragEnd;
+  }, [onDragEnd]);
 
   useEffect(() => {
     createGhost(ghostId);

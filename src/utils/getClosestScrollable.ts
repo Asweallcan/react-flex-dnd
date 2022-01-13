@@ -4,6 +4,8 @@ const getClosestScrollable = (path: HTMLElement[]): HTMLElement | null => {
   for (let index = 0; index < path.length; index += 1) {
     const element = path[index];
 
+    if (element.tagName === "HTML") return null;
+
     if (
       element instanceof HTMLElement &&
       (element.scrollHeight - element.offsetHeight > MAGIC_OFFSET ||
