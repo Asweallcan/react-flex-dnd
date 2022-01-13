@@ -65,10 +65,15 @@ const Droppable: FC<{
     (e: MouseEvent) => {
       if (!draggingId || isDragOver) return;
 
+      let findDroppable = e.target as HTMLElement;
+      while (!findDroppable.dataset.droppableId) {
+        findDroppable = findDroppable.parentNode as HTMLElement;
+      }
+
       const {
         droppableId: targetDroppableId,
         draggableId: targetDroppableDraggableId,
-      } = (e.target as unknown as HTMLElement).dataset;
+      } = findDroppable.dataset;
 
       if (
         targetDroppableId === id &&

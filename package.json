@@ -1,11 +1,11 @@
 {
   "name": "react-flex-dnd",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "react drag and drop sorting supports flex layout",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "rm -rf build && webpack-dev-server --config ./config/webpack.dev.js --open",
     "build": "rm -rf dist types && webpack --config ./config/webpack.prod.js",
+    "dev:site": "rm -rf build && webpack-dev-server --config ./config/webpack.dev.js --open",
     "build:site": "rm -rf examples_dist index.html && webpack --config ./config/webpack.site.js && mv ./examples_dist/index.html ."
   },
   "repository": {
