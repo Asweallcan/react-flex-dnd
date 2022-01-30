@@ -3,9 +3,10 @@ import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { Data } from "./types";
+import mockItems from "./mock";
 import { Canvas, Palette } from "./components";
-import { findData, removeData } from "./utils";
 import { Ghost, DragDropProvider } from "../src";
+import { removeData, containerAddItem } from "./utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,24 +27,39 @@ const App: React.FC = () => {
   return (
     <DragDropProvider
       rootId="app"
-      onDragEnd={({ to, from, draggableId }) => {
-        console.error(to, from, draggableId);
+      onDragEnd={({ to, draggableId }) => {
+        let nextData = removeData({ data, id: draggableId });
+
+        const { droppableId, index } = to;
+
+        if (droppableId === "outermost-droppable") {
+          nextData.splice(
+            index,
+            0,
+            mockItems.find((i) => i.id === draggableId)
+          );
+        } else {
+          containerAddItem({
+            item: mockItems.find((i) => i.id === draggableId),
+            data: nextData,
+            destination: index,
+            containerId: droppableId,
+          });
+        }
+
+        setData(nextData);
       }}
     >
       {({ draggingId }) => {
+        const draggingItem = mockItems.find((i) => i.id === draggingId);
+
         return (
           <Wrapper>
-            <Palette />
+            <Palette data={data} />
             <Canvas data={data} />
             <Ghost>
               {draggingId ? (
-                <GhostContent>
-                  {draggingId.split("-")[2]
-                    ? draggingId.split("-")[2] === "item"
-                      ? "add item"
-                      : "add container"
-                    : findData({ data, id: draggingId }).label}
-                </GhostContent>
+                <GhostContent>{draggingItem.label}</GhostContent>
               ) : null}
             </Ghost>
           </Wrapper>
