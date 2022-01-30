@@ -60,3 +60,20 @@ export const removeData = (params: Params): Data => {
   // @ts-ignore
   return data;
 };
+
+export const containerAddItem = (params: {
+  item: Data[number];
+  data: Data;
+  destination: number;
+  containerId: string;
+}): void => {
+  const { item, data, destination, containerId } = params;
+
+  const container = findData({ data, id: containerId });
+
+  if (!container) return;
+
+  if (!container.children) container.children = [];
+
+  container.children.splice(destination, 0, item);
+};

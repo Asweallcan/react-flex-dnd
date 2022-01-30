@@ -1,22 +1,36 @@
 import { Draggable } from "../../../src";
 
+import mockItems from "../../mock";
+import { Data } from "../../types";
+import { findData } from "../../utils";
 import { Wrapper, PaletteItem } from "./style";
 
-const Palette: React.FC = () => {
+type Props = {
+  data: Data;
+};
+
+const Palette: React.FC<Props> = (props) => {
+  const { data } = props;
+
   return (
     <Wrapper>
-      {[
-        { id: "palette-item-item", label: "item" },
-        { id: "palette-item-container", label: "container" },
-      ].map(({ id, label }, index) => {
-        return (
-          <Draggable id={id} index={index} sortable={false} belongsTo="palette">
-            {(draggableProps) => (
-              <PaletteItem {...draggableProps}>drag me: {label}</PaletteItem>
-            )}
-          </Draggable>
-        );
-      })}
+      {mockItems
+        .filter((i) => !findData({ data, id: i.id }))
+        .map(({ id, label }, index) => {
+          return (
+            <Draggable
+              id={id}
+              key={id}
+              index={index}
+              sortable={false}
+              belongsTo="palette"
+            >
+              {(draggableProps) => (
+                <PaletteItem {...draggableProps}>{label}</PaletteItem>
+              )}
+            </Draggable>
+          );
+        })}
     </Wrapper>
   );
 };
