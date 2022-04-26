@@ -23,6 +23,8 @@ export type DraggableProps = {
   onMouseOut: (e: MouseEvent) => void;
   onDragStart: (e: DragEvent) => void;
   onMouseMove: (e: MouseEvent) => void;
+  onClick: (e: MouseEvent) => void;
+  className: string;
 };
 
 export type DroppableProps = {

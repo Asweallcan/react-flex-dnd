@@ -2,6 +2,7 @@ import { Item, Wrapper } from "./style";
 import Container from "../Container";
 import { Data } from "../../types";
 import { Draggable } from "../../../src";
+import React from "react";
 
 type Props = {
   data: Data[number];

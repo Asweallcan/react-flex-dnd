@@ -1,6 +1,7 @@
 import { Wrapper } from "./style";
 import { Data } from "../../types";
 import Container from "../Container";
+import React from "react";
 
 type Props = {
   data: Data;

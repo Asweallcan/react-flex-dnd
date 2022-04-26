@@ -1,37 +1,43 @@
-import { Draggable } from "../../../src";
-
-import mockItems from "../../mock";
 import { Data } from "../../types";
-import { findData } from "../../utils";
-import { Wrapper, PaletteItem } from "./style";
+import { Wrapper } from "./style";
+import { Droppable } from "../../../src";
+import React from "react";
+import DragItem from "../DragItem";
 
 type Props = {
+  categoryTitle: string;
+  droppableId: string;
   data: Data;
 };
 
 const Palette: React.FC<Props> = (props) => {
-  const { data } = props;
+  const { data, droppableId, categoryTitle } = props;
 
   return (
-    <Wrapper>
-      {mockItems
-        .filter((i) => !findData({ data, id: i.id }))
-        .map(({ id, label }, index) => {
-          return (
-            <Draggable
-              id={id}
-              key={id}
-              index={index}
-              sortable={false}
-              belongsTo="palette"
-            >
-              {(draggableProps) => (
-                <PaletteItem {...draggableProps}>{label}</PaletteItem>
-              )}
-            </Draggable>
-          );
-        })}
-    </Wrapper>
+    <Droppable id={droppableId} >
+      {(droppableProps) => {
+        return (
+            <Wrapper {...droppableProps}>
+              <>
+                <h2>{categoryTitle}</h2>
+                {data
+                    .map((item, index) => {
+                      const { id, label } = item;
+                      return (
+                          <DragItem
+                              key={id+label}
+                              data={item}
+                              index={index}
+                              droppableId={droppableId}
+                          />
+                      );
+                    })}
+              </>
+
+            </Wrapper>
+        )
+      }}
+    </Droppable>
   );
 };
 

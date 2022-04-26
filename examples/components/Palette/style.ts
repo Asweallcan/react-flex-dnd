@@ -3,8 +3,10 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  background-color: #efefef;
   padding: 20px;
-  border: 1px solid #efefef;
+  border: 1px solid white;
 `;
 
 export const PaletteItem = styled.div`
