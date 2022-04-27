@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import { useState } from "react";
+import * as ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { Data } from "./types";
@@ -59,7 +60,6 @@ const App: React.FC = () => {
       }}
     >
       {({ selectedDraggingIds = {}, originDroppable }) => {
-          console.log(categoriesData)
         return (
           <Wrapper>
               {

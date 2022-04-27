@@ -22,7 +22,6 @@ import {
 } from "../../contexts";
 
 import "./style.less";
-import useDeepCompareEffect from "use-deep-compare-effect";
 
 const getRect = (ref: HTMLElement) => ref.getBoundingClientRect();
 
