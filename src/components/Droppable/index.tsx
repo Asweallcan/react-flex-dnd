@@ -75,6 +75,15 @@ const Droppable: FC<{
     [id, droppableId, setDroppableId]
   );
 
+    const onMouseLeave = useCallback(
+        (e: MouseEvent) => {
+            if (draggingId && onDraggedItemLeaves) {
+                onDraggedItemLeaves(draggingId);
+            }
+        },
+        [id, droppableId]
+    );
+
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
       if (!draggingId || isDragOver) return;
@@ -113,6 +122,7 @@ const Droppable: FC<{
             onMouseOut,
             onMouseMove,
             onMouseEnter,
+            onMouseLeave,
           })
         : null}
     </div>

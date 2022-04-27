@@ -27,6 +27,7 @@ const Palette: React.FC<Props> = (props) => {
     <Droppable
         id={droppableId}
         onDraggedItemEnters={() => setItemEntering(true)}
+        onDraggedItemLeaves={() => setItemEntering(false)}
     >
       {(droppableProps) => {
         return (

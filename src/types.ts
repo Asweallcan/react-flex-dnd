@@ -36,4 +36,5 @@ export type DroppableProps = {
   onMouseOut: (e: MouseEvent) => void;
   onMouseMove: (e: MouseEvent) => void;
   onMouseEnter: (e: MouseEvent) => void;
+  onMouseLeave: (e: MouseEvent) => void;
 };
