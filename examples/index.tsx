@@ -55,11 +55,11 @@ const App: React.FC = () => {
                     ...dataToDrag,
                     ...categoriesData[to.droppableId].slice(to.index),
                 ]
-            }))
+            }));
         }
       }}
     >
-      {({ selectedDraggingIds = {}, originDroppable }) => {
+      {({ selectedDraggingIds = {}, originDroppable, draggingId }) => {
         return (
           <Wrapper>
               {
@@ -68,6 +68,7 @@ const App: React.FC = () => {
                           key={cat}
                           categoryTitle={categories.find(({ id }) => id === cat)?.title || ''}
                           droppableId={cat}
+                          draggingId={draggingId}
                           data={categoriesData[cat]}
                       />
                       )

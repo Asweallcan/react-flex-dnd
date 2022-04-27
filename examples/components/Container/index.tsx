@@ -1,9 +1,9 @@
+import * as React from "react";
 import { CSSProperties } from "react";
 import DragItem from "../DragItem";
 import { Wrapper } from "./style";
 import { Data } from "../../types";
 import { Droppable } from "../../../src";
-import React from "react";
 
 type Props = {
   id?: string;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const Container: React.FC<Props> = (props) => {
-  const { id, data, style, draggableId } = props;
+  const { data, style, draggableId } = props;
   return (
     <Droppable id={"outermost-droppable"} draggableId={draggableId}>
       {(droppableProps) => {

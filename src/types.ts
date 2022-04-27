@@ -35,4 +35,5 @@ export type DroppableProps = {
   "data-draggable-id"?: string;
   onMouseOut: (e: MouseEvent) => void;
   onMouseMove: (e: MouseEvent) => void;
+  onMouseEnter: (e: MouseEvent) => void;
 };

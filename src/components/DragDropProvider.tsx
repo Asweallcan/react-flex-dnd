@@ -39,7 +39,6 @@ const DragDropProvider: FC<{
   }) => void;
 }> = (props) => {
   const { rootId, ghostId, children, onDragEnd } = props;
-
   const isReactAbove16 = +React.version.split(".")[0] > 16;
 
   if (isReactAbove16 && !rootId) {
@@ -150,7 +149,6 @@ const DragDropProvider: FC<{
       const droppableId = edgeDraggableIdRef.current
         ? draggableRefs.current[edgeDraggableIdRef.current]?.dataset?.belongsTo
         : droppableIdRef.current;
-
       if (!droppableId || !draggingIdRef.current) return;
 
       const edgeIndex = calcEdgeIndex({
