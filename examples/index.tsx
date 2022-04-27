@@ -43,10 +43,11 @@ const App: React.FC = () => {
     <DragDropProvider
       rootId="app"
       onDragEnd={({ selectedDraggedIds, from, to }) => {
-        let originData: Data = [];
+        let originData: Data = categoriesData[from.droppableId];
+        const dataToDrag = originData.filter((item) => selectedDraggedIds.includes(item.id));
+
+        // if we drag from one group to another
         if (from.droppableId !== to.droppableId) {
-            originData = categoriesData[from.droppableId];
-            const dataToDrag = originData.filter((item) => selectedDraggedIds.includes(item.id));
             setCategoriesData((catData) => ({
                 ...catData,
                 [from.droppableId]: originData.filter(item => !selectedDraggedIds.includes(item.id)),
@@ -54,6 +55,18 @@ const App: React.FC = () => {
                     ...categoriesData[to.droppableId].slice(0, to.index),
                     ...dataToDrag,
                     ...categoriesData[to.droppableId].slice(to.index),
+                ]
+            }));
+        } else {
+            // reordering in same group
+            // remove items that are moving
+            const items = categoriesData[to.droppableId].filter((data) => !selectedDraggedIds.includes(data.id));
+            setCategoriesData((catData) => ({
+                ...catData,
+                [to.droppableId]: [
+                    ...items.slice(0, to.index),
+                    ...dataToDrag,
+                    ...items.slice(to.index)
                 ]
             }));
         }

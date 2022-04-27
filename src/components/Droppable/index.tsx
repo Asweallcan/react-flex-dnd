@@ -68,10 +68,6 @@ const Droppable: FC<{
     (e: MouseEvent) => {
       e.stopPropagation();
 
-        if (draggingId && onDraggedItemLeaves) {
-            onDraggedItemLeaves(draggingId);
-        }
-
       if (droppableId !== id) return;
 
       setDroppableId();
