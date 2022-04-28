@@ -1,7 +1,7 @@
 import { FC, ReactNode, CSSProperties } from "react";
 import { Edge, DraggableProps } from "../../types";
 import "./style.less";
-declare const Draggble: FC<{
+declare const Draggable: FC<{
     id: string;
     index: number;
     style?: CSSProperties;
@@ -13,4 +13,4 @@ declare const Draggble: FC<{
     disabledEdges?: Edge[];
     children: (draggableProps: DraggableProps) => ReactNode;
 }>;
-export default Draggble;
+export default Draggable;
