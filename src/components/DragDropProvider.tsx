@@ -119,12 +119,33 @@ const DragDropProvider: FC<{
 
   const onSelectDraggable = (e:  React.MouseEvent<Element, MouseEvent>, id: string, draggable: HTMLElement | null | undefined) => {
     setSelectedDraggingIds((dict = {}) => {
-      if (draggable && draggable?.dataset?.belongsTo && !dict[draggable.dataset.belongsTo]?.includes(id)) {
+      if (draggable && draggable?.dataset?.belongsTo) {
+        const hasItemBeenAlreadyAdded = dict[draggable.dataset.belongsTo]?.includes(id);
+        const currentDataGroup = dict[draggable.dataset.belongsTo] || [];
+        let updatedGroupData = currentDataGroup
+
+        if (e.type === "click") {
+          // if we press on cmd key for multiple selection
+          if (e.metaKey) {
+            if (!hasItemBeenAlreadyAdded) {
+              updatedGroupData = [...currentDataGroup, id];
+            } else {
+              // remove
+              updatedGroupData = currentDataGroup.filter((item) => item !== id);
+            }
+          } else {
+            // single selection => reset with that id
+            updatedGroupData = [id];
+          }
+        } else if (e.type === "dragstart") {
+          //dragging => will drag already selected ids + the clicked one
+          if (!hasItemBeenAlreadyAdded) {
+            updatedGroupData = [...currentDataGroup, id];
+          }
+        }
         return ({
           ...dict,
-          [draggable.dataset.belongsTo]: e.metaKey && dict[draggable.dataset.belongsTo]
-              ? [...dict[draggable.dataset.belongsTo], id]
-              : [id]
+          [draggable.dataset.belongsTo]: updatedGroupData,
         })
       }
       return dict;
