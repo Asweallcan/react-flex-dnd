@@ -100,6 +100,7 @@ const Draggable: FC<{
   );
 
   const onClick = (e: MouseEvent) => {
+    setOriginDroppable(ref?.current?.dataset?.belongsTo);
     onSelectDraggable(e, id, ref.current)
   }
 
