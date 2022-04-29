@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import React, { createContext } from "react";
 
 import { Edge } from "./types";
 
@@ -41,6 +41,13 @@ type ControllerContextValue = {
   ) => void;
   setDraggingId: (draggableId?: string) => void;
   setDroppableId: (droppableId?: string) => void;
+  setOriginDroppable: (originDroppable: string | undefined) => void
+  onSelectDraggable: (
+      e: React.MouseEvent,
+      draggableId: string,
+      draggableElement: HTMLElement | null | undefined
+  ) => void;
+  selectedDraggingIds: Record<string, string[]> | undefined;
 };
 
 export const ControllerContext = createContext<ControllerContextValue>(

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Wrapper } from "./style";
 import { Data } from "../../types";
 import Container from "../Container";

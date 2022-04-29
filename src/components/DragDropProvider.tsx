@@ -30,15 +30,15 @@ const DragDropProvider: FC<{
   ghostId?: string;
   children:
     | ReactNode
-    | ((params: { draggingId?: string; droppableId?: string }) => ReactNode);
+    | ((params: { draggingId?: string; droppableId?: string, selectedDraggingIds?: Record<string, string[]>, originDroppable: string | undefined }) => ReactNode);
   onDragEnd: (params: {
     to: { index: number; droppableId: string };
     from: { index: number; droppableId: string };
     draggableId: string;
+    selectedDraggedIds: string[];
   }) => void;
 }> = (props) => {
   const { rootId, ghostId, children, onDragEnd } = props;
-
   const isReactAbove16 = +React.version.split(".")[0] > 16;
 
   if (isReactAbove16 && !rootId) {
@@ -72,7 +72,10 @@ const DragDropProvider: FC<{
   const [edgeDraggableId, setEdgeDraggableState] = useState<string>();
 
   const [draggingId, setDraggingIdState] = useState<string>();
+  const [selectedDraggingIds, setSelectedDraggingIds] = useState<Record<string, string[]>>();
   const [droppableId, setDroppableIdState] = useState<string>();
+  const [originDroppable, setOriginDroppable] = useState<string>();
+
 
   const setEdge = useCallback((edge?: Edge, draggableId?: string) => {
     edgeRef.current = edge;
@@ -114,6 +117,42 @@ const DragDropProvider: FC<{
     []
   );
 
+  const onSelectDraggable = (e:  React.MouseEvent<Element, MouseEvent>, id: string, draggable: HTMLElement | null | undefined) => {
+    setSelectedDraggingIds((dict = {}) => {
+      if (draggable && draggable?.dataset?.belongsTo) {
+        const hasItemBeenAlreadyAdded = dict[draggable.dataset.belongsTo]?.includes(id);
+        const currentDataGroup = dict[draggable.dataset.belongsTo] || [];
+        let updatedGroupData = currentDataGroup
+
+        if (e.type === "click") {
+          // if we press on cmd key for multiple selection
+          if (e.metaKey) {
+            if (!hasItemBeenAlreadyAdded) {
+              updatedGroupData = [...currentDataGroup, id];
+            } else {
+              // remove
+              updatedGroupData = currentDataGroup.filter((item) => item !== id);
+            }
+          } else {
+            // single selection => reset with that id
+            updatedGroupData = [id];
+          }
+        } else if (e.type === "dragstart") {
+          //dragging => will drag already selected ids + the clicked one
+          if (!hasItemBeenAlreadyAdded) {
+            updatedGroupData = [...currentDataGroup, id];
+          }
+        }
+        return ({
+          ...dict,
+          [draggable.dataset.belongsTo]: updatedGroupData,
+        })
+      }
+      return dict;
+    });
+  }
+
+
   const _nulling = useCallback(() => {
     setEdge();
     setDraggingId();
@@ -124,14 +163,13 @@ const DragDropProvider: FC<{
     DragScroller.cancel();
 
     ghostRectRef.current = undefined;
-  }, [ghostId, setEdge, setDraggingId, setDroppableId]);
+  }, [ghostId, setEdge, setDraggingId, setDroppableId, selectedDraggingIds]);
 
   const onMouseUp = useCallback(() => {
     try {
       const droppableId = edgeDraggableIdRef.current
         ? draggableRefs.current[edgeDraggableIdRef.current]?.dataset?.belongsTo
         : droppableIdRef.current;
-
       if (!droppableId || !draggingIdRef.current) return;
 
       const edgeIndex = calcEdgeIndex({
@@ -161,7 +199,12 @@ const DragDropProvider: FC<{
           droppableId: prevDroppableId,
         },
         draggableId: draggingIdRef.current,
+        selectedDraggedIds: selectedDraggingIds ?  selectedDraggingIds[prevDroppableId] : [],
       });
+      setSelectedDraggingIds((dict = {}) => ({
+        ...dict,
+        [prevDroppableId]: []
+      }))
     } finally {
       _nulling();
     }
@@ -179,7 +222,6 @@ const DragDropProvider: FC<{
       y: e.pageY - height / 2,
       x: e.pageX - width / 2,
     });
-
     DragScroller.update(e);
   }, []);
 
@@ -233,10 +275,13 @@ const DragDropProvider: FC<{
               setDroppable,
               setDraggingId,
               setDroppableId,
+              setOriginDroppable,
+              onSelectDraggable,
+              selectedDraggingIds
             }}
           >
             {typeof children === "function"
-              ? children({ draggingId, droppableId })
+              ? children({ draggingId, originDroppable, selectedDraggingIds })
               : children}
           </ControllerContext.Provider>
         </ConfigContext.Provider>

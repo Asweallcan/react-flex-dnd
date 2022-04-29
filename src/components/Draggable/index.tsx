@@ -10,7 +10,7 @@ import React, {
   ReactNode,
   DragEvent,
   MouseEvent,
-  CSSProperties,
+  CSSProperties, useState,
 } from "react";
 
 import { calcEdge } from "../../utils";
@@ -25,7 +25,7 @@ import "./style.less";
 
 const getRect = (ref: HTMLElement) => ref.getBoundingClientRect();
 
-const Draggble: FC<{
+const Draggable: FC<{
   id: string;
   index: number;
   style?: CSSProperties;
@@ -53,16 +53,27 @@ const Draggble: FC<{
 
   const { draggingId } = useContext(DragDropContext);
   const { edge, edgeDraggableId } = useContext(DraggableContext);
-  const { setEdge, setDraggingId, setDroppableId, setDraggable } =
+  const { setEdge, setDraggingId, setDroppableId, setDraggable, onSelectDraggable, selectedDraggingIds, setOriginDroppable } =
     useContext(ControllerContext);
+
 
   const isDragging = draggingId === id;
 
   const ref = useRef<HTMLDivElement>(null);
+  const [isSelected, setSelected] = useState<boolean>();
+
+  useEffect(() => {
+    if (selectedDraggingIds && ref?.current?.dataset?.belongsTo) {
+      if (selectedDraggingIds[ref?.current?.dataset?.belongsTo]?.includes(id)) {
+        setSelected(true);
+      } else {
+        setSelected(false);
+      }
+    }
+  }, [selectedDraggingIds])
 
   useEffect(() => {
     setDraggable(id, ref.current);
-
     return () => {
       setDraggable(id, null);
     };
@@ -72,8 +83,9 @@ const Draggble: FC<{
     (e: DragEvent) => {
       e.preventDefault();
       e.stopPropagation();
-
       setDraggingId(id);
+      setOriginDroppable(ref?.current?.dataset?.belongsTo);
+      onSelectDraggable(e, id, ref.current)
     },
     [id, setDraggingId]
   );
@@ -81,19 +93,21 @@ const Draggble: FC<{
   const onMouseOut = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
-
       setEdge();
       setDroppableId();
     },
     [setEdge, setDroppableId]
   );
 
+  const onClick = (e: MouseEvent) => {
+    setOriginDroppable(ref?.current?.dataset?.belongsTo);
+    onSelectDraggable(e, id, ref.current)
+  }
+
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
-
       if (!sortable || !draggingId || isDragging) return;
-
       const edge = calcEdge({
         x: e.clientX,
         y: e.clientY,
@@ -101,10 +115,10 @@ const Draggble: FC<{
         disabledEdges,
         draggableRect: getRect(ref.current!)!,
       });
-
       setEdge(edge, edge ? id : undefined);
 
       if (edge) setDroppableId(belongsTo);
+
     },
     [
       id,
@@ -140,12 +154,14 @@ const Draggble: FC<{
             "data-belongs-to": belongsTo,
             "data-draggable-id": id,
             onMouseOut,
+            onClick,
             onMouseMove,
             onDragStart,
+            className: isSelected ? "isSelected": '',
           })
         : null}
     </div>
   );
 };
 
-export default Draggble;
+export default Draggable;

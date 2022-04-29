@@ -8,5 +8,7 @@ declare const Droppable: FC<{
     direction?: Direction;
     draggableId?: string;
     children: (droppableProps: DroppableProps) => ReactNode;
+    onDraggedItemEnters?: (draggableId: string | undefined) => void;
+    onDraggedItemLeaves?: (draggableId: string | undefined) => void;
 }>;
 export default Droppable;

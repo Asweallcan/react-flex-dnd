@@ -20,6 +20,8 @@ export declare type DraggableProps = {
     onMouseOut: (e: MouseEvent) => void;
     onDragStart: (e: DragEvent) => void;
     onMouseMove: (e: MouseEvent) => void;
+    onClick: (e: MouseEvent) => void;
+    className: string;
 };
 export declare type DroppableProps = {
     ref: RefObject<HTMLDivElement>;
@@ -29,4 +31,6 @@ export declare type DroppableProps = {
     "data-draggable-id"?: string;
     onMouseOut: (e: MouseEvent) => void;
     onMouseMove: (e: MouseEvent) => void;
+    onMouseEnter: (e: MouseEvent) => void;
+    onMouseLeave: (e: MouseEvent) => void;
 };

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import { useState } from "react";
+import * as ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { Data } from "./types";
 import mockItems from "./mock";
-import { Canvas, Palette } from "./components";
+import { Palette } from "./components";
 import { Ghost, DragDropProvider } from "../src";
-import { removeData, containerAddItem } from "./utils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,47 +21,83 @@ const GhostContent = styled.div`
   justify-content: center;
 `;
 
+const categories : Category[] = [
+    { id: 'palette-droppable', title: 'palette', data: mockItems },
+    { id: 'outermost-droppable', title: 'outermost', data: [] },
+    { id: 'test-extra-droppable', title: 'test-extra-droppable', data: [] },
+]
+
+type Category = {
+    id: string;
+    title: string;
+    data: Data
+}
+type CategoriesData = Record<string, Data>;
+
 const App: React.FC = () => {
-  const [data, setData] = useState<Data>([]);
+  const [categoriesData, setCategoriesData] = useState<CategoriesData>(
+      categories.reduce<CategoriesData>((acc, { id, data }) => ({ ...acc,  [id]: data }), {})
+     );
 
   return (
     <DragDropProvider
       rootId="app"
-      onDragEnd={({ to, draggableId }) => {
-        let nextData = removeData({ data, id: draggableId });
+      onDragEnd={({ selectedDraggedIds, from, to }) => {
+        let originData: Data = categoriesData[from.droppableId];
+        const dataToDrag = originData.filter((item) => selectedDraggedIds.includes(item.id));
 
-        const { droppableId, index } = to;
-
-        if (droppableId === "outermost-droppable") {
-          nextData.splice(
-            index,
-            0,
-            mockItems.find((i) => i.id === draggableId)
-          );
+        // if we drag from one group to another
+        if (from.droppableId !== to.droppableId) {
+            setCategoriesData((catData) => ({
+                ...catData,
+                [from.droppableId]: originData.filter(item => !selectedDraggedIds.includes(item.id)),
+                [to.droppableId]:[
+                    ...categoriesData[to.droppableId].slice(0, to.index),
+                    ...dataToDrag,
+                    ...categoriesData[to.droppableId].slice(to.index),
+                ]
+            }));
         } else {
-          containerAddItem({
-            item: mockItems.find((i) => i.id === draggableId),
-            data: nextData,
-            destination: index,
-            containerId: droppableId,
-          });
+            // reordering in same group
+            // remove items that are moving
+            const items = categoriesData[to.droppableId].filter((data) => !selectedDraggedIds.includes(data.id));
+            setCategoriesData((catData) => ({
+                ...catData,
+                [to.droppableId]: [
+                    ...items.slice(0, to.index),
+                    ...dataToDrag,
+                    ...items.slice(to.index)
+                ]
+            }));
         }
-
-        setData(nextData);
       }}
     >
-      {({ draggingId }) => {
-        const draggingItem = mockItems.find((i) => i.id === draggingId);
-
+      {({ selectedDraggingIds = {}, originDroppable, draggingId }) => {
         return (
           <Wrapper>
-            <Palette data={data} />
-            <Canvas data={data} />
-            <Ghost>
-              {draggingId ? (
-                <GhostContent>{draggingItem.label}</GhostContent>
-              ) : null}
-            </Ghost>
+              {
+                  Object.keys(categoriesData).map((cat) =>  (
+                      <Palette
+                          key={cat}
+                          categoryTitle={categories.find(({ id }) => id === cat)?.title || ''}
+                          droppableId={cat}
+                          draggingId={draggingId}
+                          data={categoriesData[cat]}
+                      />
+                      )
+                  )
+              }
+              { originDroppable && selectedDraggingIds &&
+                  <Ghost>
+                  {
+                      selectedDraggingIds && selectedDraggingIds[originDroppable]?.length ?
+                          selectedDraggingIds[originDroppable].map((dragItemId) => {
+                              return <GhostContent key={`ghost_${dragItemId}`}>{dragItemId}</GhostContent>
+                          })
+                          : <div>Nothing</div>
+                  }
+                </Ghost>
+              }
           </Wrapper>
         );
       }}

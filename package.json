@@ -52,7 +52,7 @@
     "postcss": "^8.3.11",
     "autoprefixer": "^10.4.0",
     "less": "^4.1.2",
-    "eslint": "^8.2.0",
+    "eslint": "^8.14.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "2.5.1",

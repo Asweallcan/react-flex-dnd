@@ -25,6 +25,8 @@ declare const _default: {
         direction?: import("./types").Direction | undefined;
         draggableId?: string | undefined;
         children: (droppableProps: import("./types").DroppableProps) => import("react").ReactNode;
+        onDraggedItemEnters?: ((draggableId: string | undefined) => void) | undefined;
+        onDraggedItemLeaves?: ((draggableId: string | undefined) => void) | undefined;
     }>;
     DragDropContext: import("react").Context<{
         draggingId?: string | undefined;
@@ -36,6 +38,8 @@ declare const _default: {
         children: import("react").ReactNode | ((params: {
             draggingId?: string | undefined;
             droppableId?: string | undefined;
+            selectedDraggingIds?: Record<string, string[]> | undefined;
+            originDroppable: string | undefined;
         }) => import("react").ReactNode);
         onDragEnd: (params: {
             to: {
@@ -47,6 +51,7 @@ declare const _default: {
                 droppableId: string;
             };
             draggableId: string;
+            selectedDraggedIds: string[];
         }) => void;
     }>;
 };

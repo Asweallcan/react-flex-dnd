@@ -3,14 +3,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, {
-  useRef,
-  useEffect,
-  useContext,
-  useCallback,
-  FC,
-  ReactNode,
-  MouseEvent,
-  CSSProperties,
+    useRef,
+    useEffect,
+    useContext,
+    useCallback,
+    FC,
+    ReactNode,
+    MouseEvent,
+    CSSProperties, DragEvent,
 } from "react";
 
 import { Direction, DroppableProps } from "../../types";
@@ -25,6 +25,8 @@ const Droppable: FC<{
   direction?: Direction;
   draggableId?: string;
   children: (droppableProps: DroppableProps) => ReactNode;
+  onDraggedItemEnters?: (draggableId: string | undefined) => void;
+  onDraggedItemLeaves?: (draggableId: string | undefined) => void;
 }> = (props) => {
   const {
     id,
@@ -33,6 +35,8 @@ const Droppable: FC<{
     className,
     direction = Direction.Horizontal,
     draggableId,
+    onDraggedItemEnters,
+    onDraggedItemLeaves,
   } = props;
 
   const ref = useRef<HTMLDivElement>(null);
@@ -50,6 +54,16 @@ const Droppable: FC<{
     };
   }, [id, setDroppable]);
 
+
+  const onMouseEnter = useCallback(
+        (e: MouseEvent) => {
+            if (draggingId && onDraggedItemEnters) {
+                onDraggedItemEnters(draggingId);
+            }
+        },
+        [id, droppableId]
+  );
+
   const onMouseOut = useCallback(
     (e: MouseEvent) => {
       e.stopPropagation();
@@ -60,6 +74,15 @@ const Droppable: FC<{
     },
     [id, droppableId, setDroppableId]
   );
+
+    const onMouseLeave = useCallback(
+        (e: MouseEvent) => {
+            if (draggingId && onDraggedItemLeaves) {
+                onDraggedItemLeaves(draggingId);
+            }
+        },
+        [id, droppableId]
+    );
 
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
@@ -98,6 +121,8 @@ const Droppable: FC<{
             "data-draggable-id": draggableId,
             onMouseOut,
             onMouseMove,
+            onMouseEnter,
+            onMouseLeave,
           })
         : null}
     </div>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { CSSProperties } from "react";
 import DragItem from "../DragItem";
 import { Wrapper } from "./style";
@@ -12,27 +13,29 @@ type Props = {
 };
 
 const Container: React.FC<Props> = (props) => {
-  const { id, data, style, draggableId } = props;
-
+  const { data, style, draggableId } = props;
   return (
-    <Droppable id={id || "outermost-droppable"} draggableId={draggableId}>
-      {(droppableProps) => (
-        <Wrapper
-          {...droppableProps}
-          style={style}
-          noContent={(data || []).length === 0}
-        >
-          {(data || []).map((item, index) => {
-            return (
-              <DragItem
-                data={item}
-                index={index}
-                droppableId={id || "outermost-droppable"}
-              />
-            );
-          })}
-        </Wrapper>
-      )}
+    <Droppable id={"outermost-droppable"} draggableId={draggableId}>
+      {(droppableProps) => {
+        return (
+            <Wrapper
+                {...droppableProps}
+                style={style}
+                noContent={(data || []).length === 0}
+            >
+              {(data || []).map((item, index) => {
+                return (
+                    <DragItem
+                        key={index}
+                        data={item}
+                        index={index}
+                        droppableId={"outermost-droppable"}
+                    />
+                );
+              })}
+            </Wrapper>
+        )
+      }}
     </Droppable>
   );
 };

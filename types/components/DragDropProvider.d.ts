@@ -5,6 +5,8 @@ declare const DragDropProvider: FC<{
     children: ReactNode | ((params: {
         draggingId?: string;
         droppableId?: string;
+        selectedDraggingIds?: Record<string, string[]>;
+        originDroppable: string | undefined;
     }) => ReactNode);
     onDragEnd: (params: {
         to: {
@@ -16,6 +18,7 @@ declare const DragDropProvider: FC<{
             droppableId: string;
         };
         draggableId: string;
+        selectedDraggedIds: string[];
     }) => void;
 }>;
 export default DragDropProvider;
