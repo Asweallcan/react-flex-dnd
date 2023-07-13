@@ -1,4 +1,3 @@
-/* eslint-disable no-continue */
 import { Data } from "./types";
 
 type Params = {
@@ -6,7 +5,7 @@ type Params = {
   data: Data;
 };
 
-export const findData = (params: Params): Data[number] => {
+export const findData = (params: Params): Data[number] | undefined => {
   const { data, id: target } = params;
 
   for (let index = 0; index < data.length; index += 1) {
@@ -30,7 +29,7 @@ export const findData = (params: Params): Data[number] => {
     }
   }
 
-  return null;
+  return undefined;
 };
 
 export const removeData = (params: Params): Data => {
@@ -42,10 +41,8 @@ export const removeData = (params: Params): Data => {
     const { id, children } = item;
 
     if (id === target) {
-      // @ts-ignore
       data.splice(index, 1);
 
-      // @ts-ignore
       return data;
     }
 
@@ -57,7 +54,6 @@ export const removeData = (params: Params): Data => {
     }
   }
 
-  // @ts-ignore
   return data;
 };
 

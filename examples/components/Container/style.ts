@@ -5,6 +5,7 @@ export const Wrapper = styled.div<{ noContent: boolean; isDragOver: boolean }>`
   min-height: 100%;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
 
   ${({ noContent }) =>
     noContent &&

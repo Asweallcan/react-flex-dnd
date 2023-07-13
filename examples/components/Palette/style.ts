@@ -4,22 +4,26 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border: 1px solid #efefef;
+  border-right: 2px solid #aaa;
+  height: 100%;
+  overflow: auto;
 `;
 
 export const PaletteItem = styled.div`
-  height: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #efefef;
+  border: 1px solid #aaa;
   padding: 8px;
+  white-space: nowrap;
   border-radius: 4px;
   margin-bottom: 12px;
-  background-color: #fff;
+  background-color: #ccc;
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color ease-in 0.1s;
 
   &:hover {
-    border-color: #3370ff;
-    background-color: #F0F4FF;
+    background-color: #f0f4ff;
   }
 `;

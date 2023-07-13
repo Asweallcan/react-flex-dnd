@@ -1,6 +1,7 @@
-import { Draggable } from "../../../src";
+import React from "react";
 
-import mockItems from "../../mock";
+import { Draggable } from "../../../src";
+import elements from "../../elements";
 import { Data } from "../../types";
 import { findData } from "../../utils";
 import { Wrapper, PaletteItem } from "./style";
@@ -14,7 +15,10 @@ const Palette: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      {mockItems
+      <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>
+        Elements
+      </div>
+      {elements
         .filter((i) => !findData({ data, id: i.id }))
         .map(({ id, label }, index) => {
           return (

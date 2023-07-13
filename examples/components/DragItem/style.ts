@@ -1,20 +1,15 @@
 import styled, { css } from "styled-components";
 
-export const Wrapper = styled.div<{ isContainer: boolean }>`
-  border: 1px solid #efefef;
-  background-color: #fff;
-  min-height: 50px;
-  min-width: 200px;
+export const Wrapper = styled.div<{ edge?: string }>`
   width: fit-content;
   height: fit-content;
+  border: 3px solid transparent;
+  background-color: #ccc;
   margin: 10px;
-
-  ${({ isContainer }) =>
-    isContainer &&
-    css`
-      min-height: 50px;
-      border: none;
-    `}
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.3);
+  transition: background-color ease-in 0.1s;
 
   ${({ edge }) =>
     edge &&
@@ -23,4 +18,8 @@ export const Wrapper = styled.div<{ isContainer: boolean }>`
   `}
 `;
 
-export const Item = styled.div``;
+export const Item = styled.div`
+  display: inline-flex;
+  align-items: center;
+  flex-direction: column;
+`;

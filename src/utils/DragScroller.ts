@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import getClosestScrollable from './getClosestScrollable';
+import getClosestScrollable from "./getClosestScrollable";
 
 class DragScroller {
   timer = Date.now();
@@ -51,10 +50,8 @@ class DragScroller {
   };
 
   private updateY = (scrollable: HTMLElement, pageY: number) => {
-    const {
-      top: scrollableTop,
-      bottom: scrollableBottom,
-    } = scrollable.getBoundingClientRect();
+    const { top: scrollableTop, bottom: scrollableBottom } =
+      scrollable.getBoundingClientRect();
 
     if (pageY - scrollableTop < 100) {
       this.scrollY({
@@ -72,10 +69,8 @@ class DragScroller {
   };
 
   private updateX = (scrollable: HTMLElement, pageX: number) => {
-    const {
-      left: scrollableLeft,
-      right: scrollableRight,
-    } = scrollable.getBoundingClientRect();
+    const { left: scrollableLeft, right: scrollableRight } =
+      scrollable.getBoundingClientRect();
 
     if (pageX - scrollableLeft < 100) {
       this.scrollX({
@@ -103,8 +98,7 @@ class DragScroller {
     if (currentTime - this.timer < 300) return;
     this.timer = currentTime;
 
-    // @ts-ignore
-    const scrollable = getClosestScrollable(e.path)!;
+    const scrollable = getClosestScrollable(e.composedPath())!;
 
     if (!scrollable) return;
 

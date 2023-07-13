@@ -2,23 +2,20 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
+import elements from "./elements";
 import { Data } from "./types";
-import mockItems from "./mock";
 import { Canvas, Palette } from "./components";
 import { Ghost, DragDropProvider } from "../src";
 import { removeData, containerAddItem } from "./utils";
+import { PaletteItem } from "./components/Palette/style";
 
 const Wrapper = styled.div`
   display: flex;
+  height: 100vh;
 `;
 
-const GhostContent = styled.div`
-  border-radius: 4px;
-  padding: 12px;
+const GhostContent = styled(PaletteItem)`
   background-color: aliceblue;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const App: React.FC = () => {
@@ -36,22 +33,24 @@ const App: React.FC = () => {
           nextData.splice(
             index,
             0,
-            mockItems.find((i) => i.id === draggableId)
+            elements.find((i) => i.id === draggableId)!
           );
         } else {
           containerAddItem({
-            item: mockItems.find((i) => i.id === draggableId),
+            item: elements.find((i) => i.id === draggableId)!,
             data: nextData,
             destination: index,
             containerId: droppableId,
           });
         }
 
+        console.info("data", nextData);
+
         setData(nextData);
       }}
     >
       {({ draggingId }) => {
-        const draggingItem = mockItems.find((i) => i.id === draggingId);
+        const draggingItem = elements.find((i) => i.id === draggingId)!;
 
         return (
           <Wrapper>

@@ -1,10 +1,11 @@
 const MAGIC_OFFSET = 20;
 
-const getClosestScrollable = (path: HTMLElement[]): HTMLElement | null => {
+const getClosestScrollable = (path: EventTarget[]): HTMLElement | undefined => {
   for (let index = 0; index < path.length; index += 1) {
     const element = path[index];
 
-    if (element.tagName === "HTML") return null;
+    // @ts-ignore
+    if (element.tagName === "HTML") return undefined;
 
     if (
       element instanceof HTMLElement &&
@@ -15,7 +16,7 @@ const getClosestScrollable = (path: HTMLElement[]): HTMLElement | null => {
     }
   }
 
-  return null;
+  return undefined;
 };
 
 export default getClosestScrollable;

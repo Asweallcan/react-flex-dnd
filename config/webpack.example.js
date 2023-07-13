@@ -6,18 +6,28 @@ const baseConfig = require("./webpack.base");
 
 module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, "../examples/index.tsx"),
-  mode: "production",
   output: {
     path: path.resolve(__dirname, "../examples_dist"),
     filename: "index.js",
   },
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g)$/,
+        type: "asset/resource",
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "react flex dnd examples",
-      inject: true,
       template: path.resolve(__dirname, "../examples/public/index.html"),
       filename: "index.html",
-      publicPath: "./examples_dist",
+      inject: true,
     }),
   ],
+  devServer: {
+    host: "localhost",
+    port: "9999",
+  },
 });

@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Item, Wrapper } from "./style";
 import Container from "../Container";
 import { Data } from "../../types";
@@ -11,7 +13,7 @@ type Props = {
 
 const DragItem: React.FC<Props> = (props) => {
   const {
-    data: { id, type, label, children },
+    data: { id, type, label, avatar, children },
     index,
     droppableId,
   } = props;
@@ -24,19 +26,18 @@ const DragItem: React.FC<Props> = (props) => {
       threshold={type === "container" ? 0.3 : 1}
     >
       {(draggableProps) => (
-        <Wrapper {...draggableProps} isContainer={type === "container"}>
+        <Wrapper {...draggableProps}>
           {type === "item" ? (
-            <Item>{label}</Item>
+            <Item>
+              {label}
+              {avatar ? <img src={avatar} style={{ marginTop: 8 }} /> : null}
+            </Item>
           ) : (
             <Container
               id={id}
+              style={{ minWidth: 400, minHeight: 200, maxWidth: 800 }}
+              label={label}
               data={children}
-              style={{
-                minHeight: "50px",
-                height: "fit-content",
-                border: "1px solid #3370ff",
-                flexDirection: "column"
-              }}
               draggableId={id}
             />
           )}
