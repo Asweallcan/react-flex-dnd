@@ -8,7 +8,7 @@ module.exports = merge(baseConfig, {
   entry: path.resolve(__dirname, "../examples/index.tsx"),
   output: {
     path: path.resolve(__dirname, "../examples_dist"),
-    filename: "index.js",
+    filename: "index.[contenthash].js",
     publicPath: "./examples_dist",
   },
   module: {
