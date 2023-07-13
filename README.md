@@ -6,9 +6,9 @@ This package using hooks, note that your React version is above 16.8 :)
 
 Also not support mobile, but it's not time consuming, I am doing this.
 
-![example](./assets/react-flex-dnd-demo.gif)
+![demo](./assets/react-flex-dnd-demo.gif)
 
-[Playground](https://asweallcan.github.io/react-flex-dnd), the example currently is pretty simple, **only show one level nested, but it can be infinite nested if you want**, I will enrich it after a period of time.
+[Playground](https://asweallcan.github.io/react-flex-dnd), the demo currently is pretty simple, **only show one level nested, but it can be infinite nested if you want**, I will enrich it after a period of time.
 
 ## Core characteristics
 

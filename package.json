@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist types && webpack --config ./config/webpack.prod.js",
-    "dev:site": "rm -rf build && webpack-dev-server --config ./config/webpack.example.js --mode=development --open",
-    "build:site": "rm -rf examples_dist index.html && webpack --config ./config/webpack.example.js --mode=production && mv ./examples_dist/index.html ."
+    "dev:site": "rm -rf build && webpack-dev-server --config ./config/webpack.demo.js --mode=development --open",
+    "build:site": "rm -rf demo_dist index.html && webpack --config ./config/webpack.demo.js --mode=production && mv ./demo_dist/index.html ."
   },
   "repository": {
     "type": "git",
