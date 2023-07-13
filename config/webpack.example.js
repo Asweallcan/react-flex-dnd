@@ -9,6 +9,7 @@ module.exports = merge(baseConfig, {
   output: {
     path: path.resolve(__dirname, "../examples_dist"),
     filename: "index.js",
+    publicPath: "./examples_dist",
   },
   module: {
     rules: [
