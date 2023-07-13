@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import { Ghost, DragDropProvider } from "react-flex-dnd";
 
 import elements from "./elements";
 import { Data } from "./types";
 import { Canvas, Palette } from "./components";
-import { Ghost, DragDropProvider } from "../src";
 import { removeData, containerAddItem } from "./utils";
 import { PaletteItem } from "./components/Palette/style";
 

@@ -1,2 +1,2 @@
-declare const getClosestScrollable: (path: HTMLElement[]) => HTMLElement | null;
+declare const getClosestScrollable: (path: EventTarget[]) => HTMLElement | undefined;
 export default getClosestScrollable;

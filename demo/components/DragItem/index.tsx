@@ -1,9 +1,9 @@
 import React from "react";
+import { Draggable } from "react-flex-dnd";
 
 import { Item, Wrapper } from "./style";
 import Container from "../Container";
 import { Data } from "../../types";
-import { Draggable } from "../../../src";
 
 type Props = {
   data: Data[number];
