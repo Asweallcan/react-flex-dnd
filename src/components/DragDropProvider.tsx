@@ -62,6 +62,7 @@ const DragDropProvider: FC<{
   const edgeDraggableIdRef = useRef<string>();
 
   const draggingIdRef = useRef<string>();
+  const draggingIdNodeRef = useRef<HTMLElement | null | undefined>();
   const draggableRefs = useRef<Record<string, HTMLElement>>({});
   const droppableRefs = useRef<Record<string, HTMLElement>>({});
   const droppableIdRef = useRef<string>();
@@ -84,6 +85,9 @@ const DragDropProvider: FC<{
 
   const setDraggingId = useCallback((draggingId?: string) => {
     draggingIdRef.current = draggingId;
+    draggingIdNodeRef.current = draggingId
+      ? draggableRefs.current[draggingId]
+      : undefined;
     setDraggingIdState(draggingId);
   }, []);
 
@@ -144,10 +148,8 @@ const DragDropProvider: FC<{
 
       if (edgeIndex === -1) return;
 
-      const prevIndex =
-        +draggableRefs.current[draggingIdRef.current].dataset.index!;
-      const prevDroppableId =
-        draggableRefs.current[draggingIdRef.current].dataset.belongsTo!;
+      const prevIndex = +draggingIdNodeRef.current?.dataset.index!;
+      const prevDroppableId = draggingIdNodeRef.current?.dataset.belongsTo!;
 
       let newIndex = edgeIndex;
       if (prevDroppableId === droppableId) {
