@@ -61,8 +61,7 @@ const DragDropProvider: FC<{
   const edgeRef = useRef<Edge>();
   const edgeDraggableIdRef = useRef<string>();
 
-  const draggingIdRef = useRef<string>();
-  const draggingIdNodeRef = useRef<HTMLElement | null | undefined>();
+  const draggingNodeRef = useRef<HTMLElement | null | undefined>();
   const draggableRefs = useRef<Record<string, HTMLElement>>({});
   const droppableRefs = useRef<Record<string, HTMLElement>>({});
   const droppableIdRef = useRef<string>();
@@ -84,8 +83,7 @@ const DragDropProvider: FC<{
   }, []);
 
   const setDraggingId = useCallback((draggingId?: string) => {
-    draggingIdRef.current = draggingId;
-    draggingIdNodeRef.current = draggingId
+    draggingNodeRef.current = draggingId
       ? draggableRefs.current[draggingId]
       : undefined;
     setDraggingIdState(draggingId);
@@ -136,20 +134,21 @@ const DragDropProvider: FC<{
         ? draggableRefs.current[edgeDraggableIdRef.current]?.dataset?.belongsTo
         : droppableIdRef.current;
 
-      if (!droppableId || !draggingIdRef.current) return;
+      const draggingId = draggingNodeRef?.current?.dataset?.draggableId;
+      if (!droppableId || !draggingId) return;
 
       const edgeIndex = calcEdgeIndex({
         edge: edgeRef.current,
         droppable: droppableRefs.current[droppableId],
-        draggingId: draggingIdRef.current,
+        draggingId,
         draggables: draggableRefs.current,
         edgeDraggableId: edgeDraggableIdRef.current,
       });
 
       if (edgeIndex === -1) return;
 
-      const prevIndex = +draggingIdNodeRef.current?.dataset.index!;
-      const prevDroppableId = draggingIdNodeRef.current?.dataset.belongsTo!;
+      const prevIndex = +draggingNodeRef.current?.dataset.index!;
+      const prevDroppableId = draggingNodeRef.current?.dataset.belongsTo!;
 
       let newIndex = edgeIndex;
       if (prevDroppableId === droppableId) {
@@ -162,7 +161,7 @@ const DragDropProvider: FC<{
           index: prevIndex,
           droppableId: prevDroppableId,
         },
-        draggableId: draggingIdRef.current,
+        draggableId: draggingId,
       });
     } finally {
       _nulling();
@@ -170,7 +169,8 @@ const DragDropProvider: FC<{
   }, [_nulling]);
 
   const onMouseMove = useCallback((e: MouseEvent) => {
-    if (!draggingIdRef.current) return;
+    const draggingId = draggingNodeRef?.current?.dataset?.draggableId;
+    if (!draggingId) return;
 
     if (!ghostRectRef.current)
       ghostRectRef.current = getGhost().getBoundingClientRect();
@@ -189,20 +189,19 @@ const DragDropProvider: FC<{
     const eventEl = isReactAbove16
       ? (document.getElementById(rootId!) as unknown as HTMLElement)
       : document;
-
-    eventEl.addEventListener("mouseup", onMouseUp);
+    eventEl.addEventListener('mouseup', onMouseUp);
     // @ts-ignore
-    eventEl.addEventListener("mousemove", onMouseMove);
+    eventEl.addEventListener('mousemove', onMouseMove);
   }, [rootId, isReactAbove16, onMouseUp, onMouseMove]);
 
   const offEvents = useCallback(() => {
     const eventEl = isReactAbove16
       ? (document.getElementById(rootId!) as unknown as HTMLElement)
       : document;
-
-    eventEl.removeEventListener("mouseup", onMouseUp);
+    // if 'root' is not rect root node, just a custom common node. In this case, 'eventEl' will be 'null'
+    eventEl?.removeEventListener('mouseup', onMouseUp);
     // @ts-ignore
-    eventEl.removeEventListener("mousemove", onMouseMove);
+    eventEl?.removeEventListener('mousemove', onMouseMove);
   }, [rootId, isReactAbove16, onMouseUp, onMouseMove]);
 
   useEffect(() => {
