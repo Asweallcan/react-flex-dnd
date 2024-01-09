@@ -1,19 +1,23 @@
 import { GHOST_WRAPPER_ID } from "../constants";
 
-const ghostRef = {
-  current: null as HTMLElement | null,
-};
+const ghostRef: Record<string, HTMLElement | null> = {};
+
+const getGhostId = (ghostId?: string): string => {
+  return ghostId || GHOST_WRAPPER_ID;
+}
 
 export const getGhost = (ghostId?: string): HTMLElement => {
-  if (!ghostRef.current) {
-    ghostRef.current = document.getElementById(ghostId || GHOST_WRAPPER_ID)!;
+  ghostId = getGhostId(ghostId);
+
+  if (!ghostRef[ghostId]) {
+    ghostRef[ghostId] = document.getElementById(ghostId)!;
   }
 
-  return ghostRef.current;
+  return ghostRef[ghostId]!;
 };
 
 export const createGhost = (ghostId?: string): void => {
-  if (!getGhost()) {
+  if (!getGhost(ghostId)) {
     const div = document.createElement("div");
 
     div.style.zIndex = "100000";
@@ -24,7 +28,7 @@ export const createGhost = (ghostId?: string): void => {
     div.style.transform = "translate3d(-1000px, -1000px, 0)";
     div.style.pointerEvents = "none";
 
-    div.id = ghostId || GHOST_WRAPPER_ID;
+    div.id = getGhostId(ghostId);
 
     document.body.appendChild(div);
   }
@@ -33,9 +37,11 @@ export const createGhost = (ghostId?: string): void => {
 export const removeGhost = (ghostId?: string): void => {
   const ghost = getGhost(ghostId);
 
+  ghostId = getGhostId(ghostId);
+
   if (ghost) {
     ghost.remove();
-    ghostRef.current = null;
+    ghostRef[ghostId] = null;
   }
 };
 
