@@ -173,13 +173,14 @@ const DragDropProvider: FC<{
     if (!draggingId) return;
 
     if (!ghostRectRef.current)
-      ghostRectRef.current = getGhost().getBoundingClientRect();
+      ghostRectRef.current = getGhost(ghostId).getBoundingClientRect();
 
     const { width, height } = ghostRectRef.current;
 
     transformGhost({
       y: e.pageY - height / 2,
       x: e.pageX - width / 2,
+      ghostId
     });
 
     DragScroller.update(e);
