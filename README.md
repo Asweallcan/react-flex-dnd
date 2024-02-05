@@ -2,6 +2,8 @@
 
 **React drag and drop sort support flex layout and nested.**
 
+npm: https://www.npmjs.com/package/react-flex-dnd
+
 This package using hooks, note that your React version is above 16.8 :)
 
 Also not support mobile, but it's not time consuming, I am doing this.
