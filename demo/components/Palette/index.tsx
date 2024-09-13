@@ -1,5 +1,5 @@
 import React from "react";
-import { Draggable } from "react-flex-dnd";
+import { Draggable } from "../../../src";
 
 import elements from "../../elements";
 import { Data } from "../../types";

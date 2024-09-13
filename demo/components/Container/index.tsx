@@ -1,7 +1,6 @@
 import React from "react";
 import { CSSProperties } from "react";
-import { Droppable } from "react-flex-dnd";
-
+import { Droppable } from "../../../src";
 import DragItem from "../DragItem";
 import { Wrapper } from "./style";
 import { Data } from "../../types";

@@ -4,11 +4,16 @@ import { Edge } from "../types";
 const calcEdge = (params: {
   x: number;
   y: number;
+  disabled?: boolean;
   threshold: number;
   draggableRect: DOMRect;
   disabledEdges: Edge[];
 }): Edge | undefined => {
-  const { x, y, threshold, draggableRect, disabledEdges } = params;
+  const { x, y, disabled, threshold, draggableRect, disabledEdges } = params;
+
+  if (disabled) {
+    return undefined;
+  }
 
   const { top, left, width, height } = draggableRect;
   const right = left + width;

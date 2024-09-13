@@ -1,5 +1,5 @@
 import React from "react";
-import { Draggable } from "react-flex-dnd";
+import { Draggable } from "../../../src";
 
 import { Item, Wrapper } from "./style";
 import Container from "../Container";
@@ -22,6 +22,7 @@ const DragItem: React.FC<Props> = (props) => {
     <Draggable
       id={id}
       index={index}
+      disabled
       belongsTo={droppableId}
       threshold={type === "container" ? 0.3 : 1}
     >

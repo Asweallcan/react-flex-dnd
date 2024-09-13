@@ -9,7 +9,7 @@ export declare enum Direction {
     Vertical = "vertical",
     Horizontal = "horizontal"
 }
-export declare type DraggableProps = {
+export type DraggableProps = {
     ref: RefObject<HTMLDivElement>;
     edge?: Edge;
     draggable: boolean;
@@ -21,7 +21,7 @@ export declare type DraggableProps = {
     onDragStart: (e: DragEvent) => void;
     onMouseMove: (e: MouseEvent) => void;
 };
-export declare type DroppableProps = {
+export type DroppableProps = {
     ref: RefObject<HTMLDivElement>;
     isDragOver: boolean;
     "data-direction": Direction;

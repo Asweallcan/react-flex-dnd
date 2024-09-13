@@ -97,6 +97,7 @@ const Draggble: FC<{
       const edge = calcEdge({
         x: e.clientX,
         y: e.clientY,
+        disabled,
         threshold,
         disabledEdges,
         draggableRect: getRect(ref.current!)!,
@@ -108,6 +109,7 @@ const Draggble: FC<{
     },
     [
       id,
+      disabled,
       sortable,
       threshold,
       belongsTo,
