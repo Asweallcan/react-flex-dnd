@@ -21,6 +21,7 @@ declare const _default: {
     Droppable: import("react").FC<{
         id: string;
         style?: import("react").CSSProperties | undefined;
+        disabled?: boolean | undefined;
         className?: string | undefined;
         direction?: import("./types").Direction | undefined;
         draggableId?: string | undefined;

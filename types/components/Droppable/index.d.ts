@@ -4,6 +4,7 @@ import "./style.less";
 declare const Droppable: FC<{
     id: string;
     style?: CSSProperties;
+    disabled?: boolean;
     className?: string;
     direction?: Direction;
     draggableId?: string;

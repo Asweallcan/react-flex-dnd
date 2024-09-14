@@ -17,7 +17,7 @@ const Container: React.FC<Props> = (props) => {
   const { id, data, label, style, draggableId } = props;
 
   return (
-    <Droppable id={id || "outermost-droppable"} draggableId={draggableId}>
+    <Droppable id={id || "outermost-droppable"} disabled draggableId={draggableId}>
       {(droppableProps) => (
         <Wrapper
           {...droppableProps}

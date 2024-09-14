@@ -21,6 +21,7 @@ import "./style.less";
 const Droppable: FC<{
   id: string;
   style?: CSSProperties;
+  disabled?: boolean;
   className?: string;
   direction?: Direction;
   draggableId?: string;
@@ -29,6 +30,7 @@ const Droppable: FC<{
   const {
     id,
     style,
+    disabled,
     children,
     className,
     direction = Direction.Horizontal,
@@ -63,7 +65,7 @@ const Droppable: FC<{
 
   const onMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (!draggingId || isDragOver) return;
+      if (!draggingId || isDragOver || disabled) return;
 
       let findDroppable = e.target as HTMLElement;
       while (!findDroppable.dataset.droppableId) {
@@ -82,7 +84,7 @@ const Droppable: FC<{
         setDroppableId(id);
       }
     },
-    [id, draggingId, isDragOver, setDroppableId]
+    [id, disabled, draggingId, isDragOver, setDroppableId]
   );
 
   const cls = ["react-flex-dnd-droppable", className].filter(Boolean).join(" ");
